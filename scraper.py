@@ -11,11 +11,11 @@ tag = 'td'
 rates = [] # here all the currency rates will be stored
 
 dates = [] # here all set dates will be stored
-# 2020 July
+# 2020 February - July
 year_start = 2020
 year_stop = year_start # if it equals year_start then only that year
-month_start = 7
-month_stop = month_start # if it equal month_start then only for that month
+month_start = 1
+month_stop = 7 # if it equal month_start then only for that month
 
 def print_list_out(lst):
     for item in lst:
@@ -60,7 +60,7 @@ def to_data_frame(rates):
         df.to_csv(r'Data\currency_rates\data.csv', index=False)  # the name to be updated
     except:
         pass
-        
+
     return df
 
 
@@ -90,9 +90,6 @@ def main():
     df = to_data_frame(rates)
     plt.plot(df['rate'])
     plt.show()
-
-
-
 
 if __name__ == '__main__':
     main()
