@@ -2,9 +2,19 @@ from requests import get
 from bs4 import BeautifulSoup
 import pandas as pd
 
-url = 'https://www.xe.com/currencytables/?from=EUR&date='
+# currency_name / against_currency -- f.e. EUR/USD : EUR as BASE CURRENCY / USD as QUOTE CURRENCY
+currency_name = 'EUR' # BASE CURRENCY
+against_currency = 'PLN' # QUOTE CURRENCY, currency symbol or type ALL in order to get all currencies
+url = 'https://www.xe.com/currencytables/?from=' + currency_name + '&date='
 tag = 'td'
-rates = []
+rates = [] # here all the currency rates will be stored
+
+dates = [] # here all set dates will be stored
+# 2020 July
+year_start = 2020
+year_stop = year_start # if it equals year_start then only that year
+month_start = 7
+month_stop = month_start # if it equal month_start then only for that month
 
 def print_list_out(lst):
     for item in lst:
@@ -41,15 +51,13 @@ def combine_data_with_dates(date, data_from_tags):
 def to_data_frame(rates):
     df = pd.DataFrame(rates, columns=['date', 'code', 'name', 'rate'])
     df['rate'] = df['rate'].astype(float)
-    print(df)
-    df.to_csv(r'Data\currency_rates\data.csv', index=False)  # the name to be updated
 
-dates = []
-# 2020 July
-year_start = 2020
-year_stop = year_start
-month_start = 7
-month_stop = month_start
+    if not against_currency == 'ALL':
+        df = df[df['code'] == against_currency]
+
+    print(df)
+
+    # df.to_csv(r'Data\currency_rates\data.csv', index=False)  # the name to be updated
 
 def prepare_dates():
     days = [('0' + str(day))[-2:] for day in range(1, 32)] # it stops at 31
