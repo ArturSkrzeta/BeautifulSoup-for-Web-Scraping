@@ -1,6 +1,7 @@
 from requests import get
 from bs4 import BeautifulSoup
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # currency_name / against_currency -- f.e. EUR/USD : EUR as BASE CURRENCY / USD as QUOTE CURRENCY
 currency_name = 'EUR' # BASE CURRENCY
@@ -55,9 +56,13 @@ def to_data_frame(rates):
     if not against_currency == 'ALL':
         df = df[df['code'] == against_currency]
 
-    print(df)
+    try:
+        df.to_csv(r'Data\currency_rates\data.csv', index=False)  # the name to be updated
+    except:
+        pass
+        
+    return df
 
-    # df.to_csv(r'Data\currency_rates\data.csv', index=False)  # the name to be updated
 
 def prepare_dates():
     days = [('0' + str(day))[-2:] for day in range(1, 32)] # it stops at 31
@@ -82,8 +87,11 @@ def main():
             data_from_tags = extract_data_from_tags(tags)
             rates = combine_data_with_dates(date, data_from_tags)
 
-    print_list_out(rates)
-    to_data_frame(rates)
+    df = to_data_frame(rates)
+    plt.plot(df['rate'])
+    plt.show()
+
+
 
 
 if __name__ == '__main__':
