@@ -8,4 +8,5 @@
   <li>CSV file with currency rates can undergo any further analysis either for spend reporting puropse or for making investments decisions.</li>
 </ul>
 <h3>Plotting data</h3>
+<p>Below chart shows quotes of EUR/PLN from January - July of 2020.</p>
 <img src="images/eurpln20.png">
